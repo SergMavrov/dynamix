@@ -5,6 +5,7 @@ import spray.routing._
 import spray.http._
 import MediaTypes._
 import de.traveltainment.em.Database
+import de.traveltainment.service.CommonDataService
 
 // we don't implement our route structure directly in the service actor because
 // we want to be able to test it independently, without having to spin up an actor
@@ -28,9 +29,11 @@ trait MyService extends HttpService {
       get {
         respondWithMediaType(`text/html`) { // XML is marshalled to `text/xml` by default, so we simply override here
           complete {
+            // html hello will be displayed in the browser
             <html>
               <body>
                 <h1>Say hello to <i>spray-routing</i> on <i>spray-can</i>!</h1>
+                <h1>{CommonDataService.findAllCountries()}</h1>
               </body>
             </html>
           }

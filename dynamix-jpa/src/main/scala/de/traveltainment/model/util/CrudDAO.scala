@@ -21,4 +21,11 @@ trait CrudDAO[T<:DynamixEntity] {
     def find(param:Long)(implicit m : Manifest[T]):Option[T] = {
       Database.find(m.runtimeClass.asInstanceOf[Class[T]],param)
     }
+
+    def findAll()(implicit m : Manifest[T]):java.util.List[T] = {
+      Database.createQuery(
+        "from %s".format(m.runtimeClass.asInstanceOf[Class[T]].getSimpleName))
+          .findAll.underlying
+    }
+
 }

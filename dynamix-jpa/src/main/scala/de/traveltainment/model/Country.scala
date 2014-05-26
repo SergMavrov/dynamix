@@ -30,6 +30,7 @@ class Country(n:String,c:String) extends DynamixEntity {
 
 }
 
+@NamedQuery(name = "Country.findAll",query = "from Country c ")
 object Country extends CrudDAO[Country] {
 
   def apply(n:String,c:String) = new Country(n,c)
