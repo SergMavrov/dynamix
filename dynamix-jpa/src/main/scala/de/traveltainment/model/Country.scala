@@ -3,18 +3,17 @@ package de.traveltainment.model
 import javax.persistence._
 import scala.beans.BeanProperty
 import scala.annotation.meta.field
+import de.traveltainment.model.util.{CrudDAO, DynamixEntity}
+import scala.util.parsing.json.{JSONFormat, JSON}
 
-/**
- * Created by sergey on 5/25/14.
- */
 @Entity
 @Table(name = "country")
-class Country(n:String,c:String) {
+class Country(n:String,c:String) extends DynamixEntity {
 
   @(Id @field)
   @(GeneratedValue @field)(strategy = GenerationType.AUTO)
   @BeanProperty
-  var id:Int = _
+  override var id:Long = _
 
   @BeanProperty
   var name:String = n
@@ -24,11 +23,14 @@ class Country(n:String,c:String) {
 
   def this() = this(null, null)
 
-  override def toString = id + " = " + name + " " + capital
+  override def toString = {
+    "%s{id = %s, name = %s, capital = %s}".
+      format(this.getClass.getSimpleName, id, name, capital)
+  }
 
 }
 
-object Country {
+object Country extends CrudDAO[Country] {
 
   def apply(n:String,c:String) = new Country(n,c)
 
